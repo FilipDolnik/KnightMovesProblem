@@ -11,10 +11,12 @@ import XCTest
 class KnightMovesProblemTest: XCTestCase {
     
     func testSpeed() {
+        // Fix for optimizations
+        var result = 0
         measureBlock {
-            for i in 0...500 {
-                for j in 0...500 {
-                    KnightMoves.getNumberOfKnightMoves(i, j)
+            for i in 0...1000 {
+                for j in 0...1000 {
+                    result += KnightMoves.getNumberOfKnightMoves(i, j)
                 }
             }
         }
@@ -39,7 +41,7 @@ class KnightMovesProblemTest: XCTestCase {
     }
     
     func testNumberOfKnightMoves() {
-        let grid = getGridOfNumberOfKnightMoves(100, 100, 50, 50)
+        let grid = getGridOfNumberOfKnightMoves(1000, 1000, 50, 50)
         
         for (i, row) in grid.enumerate() {
             for (j, cell) in row.enumerate() {

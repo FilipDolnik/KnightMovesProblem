@@ -7,22 +7,13 @@
 //
 
 public struct KnightMoves {
-    
-    private static let exceptions: [(x: Int, y: Int, numberOfMoves: Int)] = [
-        (0, 0, 0),
-        (1, 0, 3),
-        (1, 1, 2),
-        (2, 0, 2),
-        (3, 1, 2),
-        (4, 3, 3)
-    ]
-    
+
     public static func getNumberOfKnightMoves(x: Int, _ y: Int) -> Int {
         let (a, b) = normalizeCoordinates(x, y)
-        if a < 6 {
-            return getNumberOfKnightMovesIn6x6(a, b)
+        if a < 7 {
+            return getNumberOfKnightMovesIn7x7(a, b)
         } else {
-            return getNumberOfKnightMovesOutside6x6(a, b)
+            return getNumberOfKnightMovesOutside7x7(a, b)
         }
     }
     
@@ -32,26 +23,35 @@ public struct KnightMoves {
         return (max(ax, ay), min(ax, ay))
     }
     
-    private static func getNumberOfKnightMovesIn6x6(x: Int, _ y: Int) -> Int {
-        let (a, b) = normalizeCoordinates(x, y)
-        for exception in exceptions {
-            if exception.x == a && exception.y == b {
-                return exception.numberOfMoves
-            }
-        }
-        return getNumberOfKnightMovesIn6x6(a - 2, b - 1) + 1
-    }
-    
-    private static func getNumberOfKnightMovesOutside6x6(x: Int, _ y: Int) -> Int {
+    private static func getNumberOfKnightMovesIn7x7(x: Int, _ y: Int) -> Int {
         var a = x
         var b = y
         var moves = 0
-        while a >= 6 {
-            if a == 6 && b == 6 {
-                a -= 1
-                b -= 2
+        while true {
+            (a, b) = normalizeCoordinates(a, b)
+            switch (a, b) {
+            case (0, 0):
+                break
+            case (1, 1), (2, 0), (3, 1):
+                moves += 2
+            case (4, 3), (1, 0):
+                moves += 3
+            default:
+                a -= 2
+                b -= 1
                 moves += 1
-            } else if a == b {
+                continue
+            }
+            return moves
+        }
+    }
+    
+    private static func getNumberOfKnightMovesOutside7x7(x: Int, _ y: Int) -> Int {
+        var a = x
+        var b = y
+        var moves = 0
+        while a >= 7 {
+            if a == b {
                 a -= 3
                 b -= 3
                 moves += 2
@@ -64,6 +64,6 @@ public struct KnightMoves {
                 moves += 1
             }
         }
-        return getNumberOfKnightMovesIn6x6(a, b) + moves
+        return getNumberOfKnightMovesIn7x7(a, b) + moves
     }
 }
