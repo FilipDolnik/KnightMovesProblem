@@ -41,12 +41,14 @@ class KnightMovesProblemTest: XCTestCase {
     }
     
     func testNumberOfKnightMoves() {
-        let grid = getGridOfNumberOfKnightMoves(1000, 1000, 50, 50)
+        let gridSize = (1000, 1000)
+        let offset = (50, 50)
+        let grid = getGridOfNumberOfKnightMoves(gridSize.0, gridSize.1, offset.0, offset.1)
         
         for (i, row) in grid.enumerate() {
             for (j, cell) in row.enumerate() {
-                let x = i - 50
-                let y = j - 50
+                let x = i - offset.0
+                let y = j - offset.1
                 let computedMoves = KnightMoves.getNumberOfKnightMoves(x, y)
                 XCTAssertEqual(cell, computedMoves, "[\(x)][\(y)]")
             }
